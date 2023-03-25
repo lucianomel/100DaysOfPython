@@ -21,7 +21,7 @@ def show_missing_states(states):
     for item in states:
         listbox.insert(tk.END, item)
 
-    if len(states) == 0:
+    if len(states) == 1:
         messagebox.showinfo("Game Finished", "You won! Congratulations!")
     else:
         messagebox.showinfo("Game Finished",

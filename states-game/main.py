@@ -1,7 +1,5 @@
-import pandas as pd
 from end_gui import show_missing_states
 from states_turtle_game import game_on
-from tkinter import messagebox, Tk
 
 GAME_CSV_PATH = "argentina_coords.csv"
 GAME_IMAGE_PATH = "arg_map.gif"

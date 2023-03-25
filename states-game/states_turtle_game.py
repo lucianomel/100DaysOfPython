@@ -21,6 +21,7 @@ def game_on(game_data):
 
     # Import coordinates and states
     data = pd.read_csv(game_data["csv_path"])
+    all_states = data.state
     # Init loop variables
     game_is_on = True
     states_guessed = 0
@@ -34,6 +35,10 @@ def game_on(game_data):
         answer_state = screen.textinput(title=f"{states_guessed}/{n_provincias}",
                                         prompt="Another province? (type with accents)").title()
         state_row = data[data.state == answer_state]
+
+        if answer_state == "Exit":
+            missing_states = [state for state in all_states if state not in guessed_states]
+            return missing_states
         # End if state was already guessed or if state is incorrect
         if state_row.empty or (answer_state in guessed_states):
             game_is_on = False
@@ -48,19 +53,22 @@ def game_on(game_data):
             states_guessed += 1
 
     screen.bye()
-
-    # look for missing states, sort one list + double index
-    guessed_states.sort()
-    missing_states = []
-    j = 0
-    states = data.state
-    i = 0
-    while i < states.size:
-        state = states[i]
-        if j < len(guessed_states) and state == guessed_states[j]:
-            j += 1
-        else:
-            missing_states.append(state)
-        i += 1
-
+    missing_states = [state for state in all_states if state not in guessed_states]
     return missing_states
+
+    # Making the loop O(nlogn) instead of O(n^2)
+    # # look for missing states, sort one list + double index
+    # guessed_states.sort()
+    # missing_states = []
+    # j = 0
+    # states = data.state
+    # i = 0
+    # while i < states.size:
+    #     state = states[i]
+    #     if j < len(guessed_states) and state == guessed_states[j]:
+    #         j += 1
+    #     else:
+    #         missing_states.append(state)
+    #     i += 1
+    #
+    # return missing_states
