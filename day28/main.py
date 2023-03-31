@@ -13,9 +13,9 @@ standard = [
 ]
 blue = [
     "#A5D7E8",
-     "#0B2447",
-     "#19376D",
-     "#576CBC"
+    "#0B2447",
+    "#19376D",
+    "#576CBC"
 ]
 green = [
     "#EDF1D6",
@@ -38,11 +38,13 @@ pop_up = False
 current_selected_pallet = 0
 # ---------------------------- TIMER RESET ------------------------------- #
 
+
 def theme_callback(event):
     global current_selected_pallet
     index_selection = event.widget.curselection()[0]
     current_selected_pallet = index_selection
     change_colors()
+
 
 def change_colors():
     window.config(bg=COLORS[current_selected_pallet][3])
@@ -59,6 +61,7 @@ def toggle_pop_up():
 
 # ---------------------------- TIMER RESET ------------------------------- # 
 
+
 def reset_timer():
     global reps
     window.after_cancel(timer)
@@ -71,6 +74,7 @@ def reset_timer():
     reps = 0
 
 # ---------------------------- TIMER MECHANISM ------------------------------- # 
+
 
 def start_timer():
     global reps
@@ -97,6 +101,7 @@ def start_timer():
         title_label["fg"] = COLORS[current_selected_pallet][1]
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- # 
+
 
 def count_down(n):
     if n < 0:
