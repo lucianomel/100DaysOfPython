@@ -1,14 +1,20 @@
+import os
 from tkinter import *
 import pandas as pd
-from random import randint, choice
+from random import choice
 BACKGROUND_COLOR = "#B1DDC6"
 front = True
+df = pd.DataFrame()
+df_index = -1
 
 DICT_FILE_NAME = "data/italian_spanish.csv"
 
 
+# -------------SAVE PROGRESS---------------- #
 
-#-------------SAVE PROGRESS----------------#
+def win():
+    canvas.itemconfig(word, text="Congratulations! You win!", fill="black", font=("Ariel", 30, "bold"))
+    canvas.itemconfig(word_lang, text="")
 
 
 def start_words():
@@ -29,7 +35,7 @@ def start_words():
 
 def load_words():
     global df
-    #Load words to learn from previous games
+    # Load words to learn from previous games
     try:
         with open("data/words_to_learn") as file:
             df = pd.read_csv(file)
@@ -37,20 +43,24 @@ def load_words():
         df = pd.read_csv("data/words")
     if df.empty:
         df = pd.read_csv("data/words")
+    if df.empty:
+        os.remove("data/words")
+        os.remove("data/words_to_learn")
 
 
 def delete_from_df():
-    global df_index,df
+    global df_index, df
     df.drop(df_index, inplace=True)
+
 
 def delete_from_words_file():
     """Removes from 'words' file the current word"""
     words = get_random_words()
     random_words_line = f"{words[0]},{words[1]}\n"
-    #Get every word
+    # Get every word
     with open("data/words", "r") as file:
         lines = file.readlines()
-    #Rewrite every line except random_words_line
+    # Rewrite every line except random_words_line
     with open("data/words", "w") as file:
         for line in lines:
             if line == random_words_line:
@@ -79,16 +89,13 @@ def delete_from_words_to_learn():
 
 def set_random_word():
     """Returns the df index, sets a random word based on the df. If the df is empty, player won"""
-    global df_index,df
-    if df.empty:
-        canvas.itemconfig(word, text="Congratulations! You win!", fill="black", font=("Ariel",30,"bold"))
-    else:
-        df_index = choice(df.index.values)
+    global df_index, df
+    df_index = choice(df.index.values)
     return df_index
 
 
 def get_random_words():
-    global df_index,df
+    global df_index, df
     return df.loc[df_index].array
 
 
@@ -97,6 +104,7 @@ def delete_word():
     delete_from_words_file()
     delete_from_df()
 
+
 def right():
     global df
     """As the word is guessed, it is deleted from the files (words to learn and words), and from the current df. 
@@ -104,7 +112,10 @@ def right():
     delete_word()
     if df.empty:
         df = pd.read_csv("data/words")
-    flip()
+    if df.empty:
+        win()
+    else:
+        flip()
 
 
 def wrong():
@@ -113,7 +124,7 @@ def wrong():
     random_words_line = f"{words[0]},{words[1]}\n"
     word_already_present = False
     try:
-        #Check if the word is already in the file
+        # Check if the word is already in the file
         with open("data/words_to_learn", "r") as file:
             for line in file.readlines():
                 if line == random_words_line:
@@ -129,7 +140,7 @@ def wrong():
     flip()
 
 
-#-------------FLIP CARD----------------#
+# -------------FLIP CARD---------------- #
 
 
 def start():
@@ -152,7 +163,7 @@ def flip():
     display_words()
     front = not front
 
-#-------------RANDOM WORD----------------#
+# -------------RANDOM WORD---------------- #
 
 
 def display_words():
@@ -163,33 +174,26 @@ def display_words():
         canvas.itemconfig(word, text=words[0], fill="white")
     else:
         language = "spanish"
-        canvas.itemconfig(word_lang, text=language,fill="black")
-        canvas.itemconfig(word, text=words[1],fill="black")
+        canvas.itemconfig(word_lang, text=language, fill="black")
+        canvas.itemconfig(word, text=words[1], fill="black")
 
-#-------------UI----------------#
+# -------------UI---------------- #
 
 
 window = Tk()
 window.title("Flashy")
-window.config(padx=50,pady=50, bg=BACKGROUND_COLOR)
+window.config(padx=50, pady=50, bg=BACKGROUND_COLOR)
 
 card_front_img = PhotoImage(file="./images/card_front.png")
 card_back_img = PhotoImage(file="./images/card_back.png")
 
 canvas = Canvas(width=800, height=526, bg=BACKGROUND_COLOR, highlightthickness=0)
 canvas_card = canvas.create_image(0, 0, image=card_front_img, anchor="nw")
-word_lang = canvas.create_text(400, 150, font=("Ariel",40,"italic"))
-word = canvas.create_text(400, 263, font=("Ariel",60,"italic"))
-canvas.grid(row=0, columnspan=2, column=0, pady=(0,50))
-start_button = Button(text="Start",padx=100,pady=100,font=("Ariel",60,"italic"),bg="white",command=start)
+word_lang = canvas.create_text(400, 150, font=("Ariel", 40, "italic"))
+word = canvas.create_text(400, 263, font=("Ariel", 60, "italic"))
+canvas.grid(row=0, columnspan=2, column=0, pady=(0, 50))
+start_button = Button(text="Start", padx=100, pady=100, font=("Ariel", 60, "italic"), bg="white", command=start)
 start_button.place(x=200, y=110)
-
-# lang_text = Label(master=window,text="French",font=("Ariel",40,"italic"), bg="white")
-# lang_text.place(x=300, y=150)
-#
-# word = Label(master=window,text="trouve",font=("Ariel",40,"bold"), bg="white")
-# word.place(x=300, y=263)
-
 
 tick_img = PhotoImage(file="./images/right.png")
 tick = Button(image=tick_img, highlightthickness=0, command=right)
@@ -199,7 +203,7 @@ cross_img = PhotoImage(file="./images/wrong.png")
 cross = Button(image=cross_img, highlightthickness=0, command=wrong)
 cross.grid(row=1, column=1)
 
-#Disable buttons on start
+# Disable buttons on start
 tick.config(state="disabled")
 cross.config(state="disabled")
 

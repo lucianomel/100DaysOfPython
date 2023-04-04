@@ -224,6 +224,7 @@ deve,necesita
 persone,gente
 nostro,nuestro
 tipo,chico
+prego,Por favor
 grande,excelente
 può,poder
 senti,sentir
@@ -296,13 +297,13 @@ eh,eh
 suoi,su
 vado,Voy
 sara,será
-dato,dado
 stiamo,somos
 bella,Bonito
 scusa,Disculpe
 erano,Ellos eran
 pensavo,Pensé
 avrei,Quisiera
+prendere,llevar
 buona,Bien
 porta,trayera
 bello,Elegante
@@ -543,6 +544,7 @@ prova,ensayo
 nuova,nuevo
 ricordo,Recuerdo
 divertente,divertido
+avessi,tenía
 sicura,seguro
 paio,par
 conto,Yo cuento
@@ -707,6 +709,7 @@ vede,ver
 avvocato,abogado
 deciso,decidido
 sarai,usted será
+messaggio,mensaje
 dormire,dormir
 dieci,diez
 stupido,estúpido
@@ -730,6 +733,7 @@ chiamare,llamar
 poter,ser capaz
 campo,campo
 luce,luz
+sam,Sam
 qualunque,alguien
 giovane,joven
 signori,caballeros
@@ -892,6 +896,7 @@ legge,ley
 spesso,A menudo
 guardate,mirar
 cambiato,cambió
+scena,escena
 volevi,tú querías
 charlie,Charlie
 lasciami,Déjame
@@ -1275,6 +1280,7 @@ avrebbero,ellos tendrían
 pomeriggio,tarde
 documenti,documentos
 farei,yo lo haría
+giudice,juez
 mostro,monstruo
 destra,bien
 luna,luna
@@ -1522,6 +1528,7 @@ torta,pastel
 guardami,Mírame
 dirò,diré
 accanto,junto a
+eroe,héroe
 turno,cambio
 piccoli,chiquitos
 entrambe,ambos
@@ -1699,6 +1706,7 @@ vendere,vender
 pantaloni,pantalones
 miss,Extrañar
 centrale,central
+azione,acción
 principe,Príncipe
 cadavere,cadáver
 chiusa,cerrado
@@ -1913,6 +1921,7 @@ fidanzata,novia
 andarmene,dejar
 seriamente,en serio
 pista,pista
+terza,tercero
 desiderio,desear
 preoccupi,preocuparse
 mentendo,mente
@@ -2230,6 +2239,7 @@ studenti,estudiantes
 battuta,broma
 dappertutto,en todos lados
 dave,dave
+tè,tú
 hank,Madeja
 profondo,profundo
 arrivi,Llegadas
@@ -2371,6 +2381,7 @@ stomaco,estómago
 membri,miembros
 licenziato,despedido
 preferirei,preferiría
+tirare,Jalar
 chiedevo,Yo pregunté
 analisi,análisis
 muoversi,mover
@@ -2388,6 +2399,7 @@ bei,lindo
 assicuro,seguro
 abbandonato,abandonado
 facilmente,fácilmente
+scale,escaleras
 attorno,alrededor
 darò,daré
 smetterla,detener
