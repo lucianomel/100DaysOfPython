@@ -1,0 +1,45 @@
+{
+    "status": "ok",
+    "totalResults": 113,
+    "articles": [
+        {
+            "source": {
+                "id": "business-insider",
+                "name": "Business Insider"
+            },
+            "author": "Phil Rosen",
+            "title": "These were top 10 biggest winners and losers in the S&P 500 in the first quarter",
+            "description": "The S&P 500 index returned 7.5% in the first quarter of the 2023, with Nvidia, Meta, and Tesla leading the way with the largest gains.",
+            "url": "https://markets.businessinsider.com/news/stocks/top-performing-stocks-sp500-q1-nvidia-tesla-apple-list-investing-2023-4",
+            "urlToImage": "https://i.insider.com/642d85edde7d9200193a1c51?width=1200&format=jpeg",
+            "publishedAt": "2023-04-05T16:38:01Z",
+            "content": "Traders work on the floor at the New York Stock Exchange (NYSE) in New York, U.S., March 2, 2020.Brendan McDermid/Reuters\r\n<ul>\n<li>The S&P 500 returned 7.5% in the first quarter of 2023 as bank turm\u2026 [+3201 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "Autoblog"
+            },
+            "author": "Reuters",
+            "title": "Report: Tesla workers shared sensitive images recorded by customer cars",
+            "description": "Filed under:\n Green,Tesla,Technology,Electric\n Continue reading Report: Tesla workers shared sensitive images recorded by customer cars\nReport: Tesla workers shared sensitive images recorded by customer cars originally appeared on Autoblog on Thu, 6 Apr 2023 \u2026",
+            "url": "https://www.autoblog.com/2023/04/06/tesla-workers-shared-sensitive-images-videos-recorded-by-customer-cars/",
+            "urlToImage": "https://o.aolcdn.com/images/dims3/GLOB/legacy_thumbnail/1062x597/format/jpg/quality/100/https://s.aolcdn.com/os/ab/_cms/2023/04/06110040/2023-04-06T135744Z_1_LYNXMPEJ350L0_RTROPTP_4_TESLA-PRIVACY-CAMERAS.jpg.jpg",
+            "publishedAt": "2023-04-06T15:02:00Z",
+            "content": "Tesla Inc assures its millions of electric car owners that their privacy is and will always be enormously important to us. The cameras it builds into vehicles to assist driving, it notes on its websi\u2026 [+16685 chars]"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "Biztoc.com"
+            },
+            "author": "reuters.com",
+            "title": "Tesla to use iron-based batteries in Semi electric trucks and affordable electric car",
+            "description": "San Francisco, April 6 (Reuters) - Tesla Inc (TSLA.O) said it plans to expand the use of cheaper, iron-based batteries to a version of its Semi heavy electric trucks and an affordable electric vehicle. Tesla Chief Executive Elon Musk has championed on the lit\u2026",
+            "url": "https://biztoc.com/x/528d347e2350fb73",
+            "urlToImage": "https://c.biztoc.com/p/528d347e2350fb73/og.webp",
+            "publishedAt": "2023-04-06T20:12:04Z",
+            "content": "San Francisco, April 6 (Reuters) - Tesla Inc (TSLA.O) said it plans to expand the use of cheaper, iron-based batteries to a version of its Semi heavy electric trucks and an affordable electric vehicl\u2026 [+291 chars]"
+        }
+    ]
+}
