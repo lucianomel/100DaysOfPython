@@ -5,7 +5,6 @@ import time
 
 import requests
 from uuid import uuid4
-from datetime import datetime
 import pandas as pd
 pixela_endpoint = "https://pixe.la/v1/users"
 
@@ -32,11 +31,13 @@ class HabitTracker:
             print(self.login(user))
             return True
         else:
-            try:
-                print(self.sign_up(user))
-                return True
-            except requests.exceptions.HTTPError:
+            signup_response = self.sign_up(user)
+            if signup_response["error"]:
+                print("Error in signup")
                 return False
+            else:
+                print("Success in signup")
+                return True
 
     def save_token_in_file(self):
         """Creates persistent data for login"""
@@ -102,7 +103,7 @@ class HabitTracker:
             "type": graph_type,
             "color": graph_color
         }
-        while True:
+        for _ in range(0, 10):
             try:
                 response = requests.post(url=graph_endpoint, json=graph_config, headers=self.get_auth_headers())
                 response.raise_for_status()
@@ -112,23 +113,22 @@ class HabitTracker:
                 time.sleep(1)
                 print({"error": e, "response": None, "function": "create_graph"})
 
-    def add_pixel_today(self, graph_id, qty):
+    def add_pixel(self, graph_id, qty, date):
         """Api call. Graph id should be an id of a already created graph (only if logged in)"""
         post_pixel_endpoint = f"{pixela_endpoint}/{self.username}/graphs/{graph_id}"
 
-        today_str = datetime.now().strftime("%Y%m%d")
-
         post_pixel_config = {
-            "date": today_str,
+            "date": date,
             "quantity": str(qty)
         }
-        while True:
+        for _ in range(0, 10):
             try:
-                response = requests.post(url=post_pixel_endpoint, json=post_pixel_config, headers=self.get_auth_headers())
+                response = requests.post(url=post_pixel_endpoint, json=post_pixel_config,
+                                         headers=self.get_auth_headers())
                 response.raise_for_status()
                 return {"error": None, "response": response}
             except requests.exceptions.HTTPError as e:
-                return {"error": e, "response": None}
+                print({"error": e, "response": None})
 
     def modify_pixel(self, date, graph_id, pixel_qty):
         """Api call. Date in format YYYYmmdd, pixel_qty in defined type for the graph indicated with graph_id
@@ -138,14 +138,15 @@ class HabitTracker:
         update_pixel_config = {
             "quantity": pixel_qty
         }
-        try:
-            response = requests.put(url=update_pixel_endpoint,
-                                    json=update_pixel_config,
-                                    headers=self.get_auth_headers())
-            response.raise_for_status()
-            return {"error": None, "response": response}
-        except requests.exceptions.HTTPError as e:
-            return {"error": e, "response": None}
+        for _ in range(0, 10):
+            try:
+                response = requests.put(url=update_pixel_endpoint,
+                                        json=update_pixel_config,
+                                        headers=self.get_auth_headers())
+                response.raise_for_status()
+                return {"error": None, "response": response}
+            except requests.exceptions.HTTPError as e:
+                print({"error": e, "response": None})
 
     def delete_pixel(self, graph_id, date):
         """Api call to delete a pixel (only if logged in)"""
@@ -155,6 +156,8 @@ class HabitTracker:
             response.raise_for_status()
             return {"error": None, "response": response}
         except requests.exceptions.HTTPError as e:
+            if response.status_code == 503:
+                return self.delete_pixel(graph_id, date)
             return {"error": e, "response": None}
 
     def get_graphs(self):
@@ -177,16 +180,16 @@ class HabitTracker:
 
     def load_graphs(self):
         graph_endpoint = f"{pixela_endpoint}/{self.username}/graphs"
-
-        try:
-            response = requests.get(url=graph_endpoint, headers=self.get_auth_headers())
-            response.raise_for_status()
-            print(json.loads(response.text))
-            print(type(json.loads(response.text)))
-            for graph in json.loads(response.text)["graphs"]:
-                self.graphs.append({"id": graph["id"], "name": graph["name"]})
-            print(self.graphs)
-            return {"error": None, "response": response, "function": "load_graphs"}
-        except requests.exceptions.HTTPError as e:
-            time.sleep(0.5)
-            print({"error": e, "response": None})
+        for _ in range(0, 10):
+            try:
+                response = requests.get(url=graph_endpoint, headers=self.get_auth_headers())
+                response.raise_for_status()
+                print(json.loads(response.text))
+                print(type(json.loads(response.text)))
+                for graph in json.loads(response.text)["graphs"]:
+                    self.graphs.append({"id": graph["id"], "name": graph["name"]})
+                print(self.graphs)
+                return {"error": None, "response": response, "function": "load_graphs"}
+            except requests.exceptions.HTTPError as e:
+                time.sleep(1)
+                print({"error": e, "response": None})
