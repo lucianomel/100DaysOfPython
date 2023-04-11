@@ -1,5 +1,7 @@
+import json
 import random
 import string
+import time
 
 import requests
 from uuid import uuid4
@@ -23,6 +25,18 @@ class HabitTracker:
         self.username = None
         self.token = None
         self.graphs = []
+
+    def start(self, user):
+        """Loggs in or signs up user if returns true"""
+        if user_exists(user):
+            print(self.login(user))
+            return True
+        else:
+            try:
+                print(self.sign_up(user))
+                return True
+            except requests.exceptions.HTTPError:
+                return False
 
     def save_token_in_file(self):
         """Creates persistent data for login"""
@@ -68,6 +82,7 @@ class HabitTracker:
             # Login:
             self.username = user_and_token.username
             self.token = user_and_token.token
+            self.load_graphs()
             return {"msg": f"Login successful {self.username}, {self.token}"}
 
     def get_auth_headers(self):
@@ -94,7 +109,8 @@ class HabitTracker:
                 self.graphs.append(graph_config)
                 return {"error": None, "response": response, "graph_id": graph_id}
             except requests.exceptions.HTTPError as e:
-                print({"error": e, "response": None})
+                time.sleep(1)
+                print({"error": e, "response": None, "function": "create_graph"})
 
     def add_pixel_today(self, graph_id, qty):
         """Api call. Graph id should be an id of a already created graph (only if logged in)"""
@@ -158,3 +174,19 @@ class HabitTracker:
             return {"error": None, "response": response, "graph_id": graph_id}
         except requests.exceptions.HTTPError as e:
             return {"error": e, "response": None}
+
+    def load_graphs(self):
+        graph_endpoint = f"{pixela_endpoint}/{self.username}/graphs"
+
+        try:
+            response = requests.get(url=graph_endpoint, headers=self.get_auth_headers())
+            response.raise_for_status()
+            print(json.loads(response.text))
+            print(type(json.loads(response.text)))
+            for graph in json.loads(response.text)["graphs"]:
+                self.graphs.append({"id": graph["id"], "name": graph["name"]})
+            print(self.graphs)
+            return {"error": None, "response": response, "function": "load_graphs"}
+        except requests.exceptions.HTTPError as e:
+            time.sleep(0.5)
+            print({"error": e, "response": None})
