@@ -16,7 +16,6 @@ class DataManager:
         response = requests.get(url=os.environ["SHEETY_GET_URL"], headers=auth_headers)
         response.raise_for_status()
         data = response.json()
-        print(data)
         return data
 
     def parse_initial_data(self):
@@ -32,3 +31,13 @@ class DataManager:
         }
         response = requests.put(url=f"{os.environ['SHEETY_PUT']}{row['id']}", json=request_config, headers=auth_headers)
         response.raise_for_status()
+
+    def get_users_emails(self):
+        auth_headers = {
+            "Authorization": os.environ["SHEETY_AUTH_TOKEN"]
+        }
+        response = requests.get(url=os.environ["SHEETY_GET_URL_USERS"], headers=auth_headers)
+        response.raise_for_status()
+        data = response.json()
+        print("USER EMAILS:", data)
+        return data["users"]

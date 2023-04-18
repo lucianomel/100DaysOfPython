@@ -1,6 +1,7 @@
 import os
 import requests
 from datetime import datetime,timedelta
+from pprint import pprint
 
 TEKILA_BASE_URL = "https://api.tequila.kiwi.com"
 
@@ -9,7 +10,7 @@ class FlightSearch:
     # This class is responsible for talking to the Flight Search API.
     def __init__(self):
         self.city = None
-        self.iataCode = None
+        self.iata_code = None
 
     def get_city(self, city):
         self.city = city
@@ -26,7 +27,8 @@ class FlightSearch:
         response = requests.get(url=f"{TEKILA_BASE_URL}/locations/query", params=request_config, headers=auth_headers)
         response.raise_for_status()
         data = response.json()
-        self.iataCode = data["locations"][0]["code"]
+        self.iata_code = data["locations"][0]["code"]
+        return self.iata_code
 
     def search_flights(self):
         self.get_iata_code()
@@ -37,7 +39,7 @@ class FlightSearch:
         tomorrow = datetime.now().strftime("%d/%m/%Y")
         request_config = {
             "fly_from": "LON",
-            "fly_to": self.iataCode,
+            "fly_to": self.iata_code,
             "date_from": tomorrow,
             "date_to": day_in_six_months,
             "curr": "GBP",
@@ -46,9 +48,12 @@ class FlightSearch:
             "nights_in_dst_from": 7,
             "nights_in_dst_to": 28,
             "one_for_city": 1,
-            "max_stopovers": 0
+            "max_stopovers": 7
         }
-        response = requests.get(url=f"{TEKILA_BASE_URL}/search", params=request_config, headers=auth_headers)
+        response = requests.get(url=f"{TEKILA_BASE_URL}/v2/search", params=request_config, headers=auth_headers)
         response.raise_for_status()
         data = response.json()
-        return data["data"][0]
+        try:
+            return data["data"][0]
+        except IndexError:
+            return None
